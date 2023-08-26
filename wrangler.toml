@@ -1,0 +1,19 @@
+name = "despachavarro"
+
+workers_dev = true
+main = "./build/index.js"
+# https://developers.cloudflare.com/workers/platform/compatibility-dates
+compatibility_date = "2023-04-20"
+
+kv_namespaces = [
+  { binding = "kv", id = "<ignored>", preview_id = "<ignored>" }
+]
+
+[site]
+  bucket = "./public"
+
+[build]
+  command = "npm run build"
+
+[miniflare]
+  kv_persist = true # Defaults to ./.mf/kv
