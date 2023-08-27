@@ -8,15 +8,16 @@ import mkid from "~/mkid.server";
 export async function loader ({ context, request }: LoaderArgs) {
   const { auth0 = false, email = false, verified = false } = await authenticator.isAuthenticated(request) ?? {}
   if (!verified) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   if (!auth0) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   const env = context.env as Env
   const user = await env.kv.get(`v1/user/${auth0}`)
+
   if (user == null) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
 
   return json({
@@ -27,25 +28,25 @@ export async function loader ({ context, request }: LoaderArgs) {
 export async function action ({ context, request }: ActionArgs) {
   const { auth0 = false, email = false, verified = false } = await authenticator.isAuthenticated(request) ?? {}
   if (!verified) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   if (!auth0) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   const env = context.env as Env
   const user = await env.kv.get(`v1/user/${auth0}`)
   if (user == null) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
 
   const formData = await request.formData()
   const chave = await formData.get('chave')
   if (chave == null ) {
-    return redirect('/', { status: 400 })
+    return redirect('/')
   }
   const dados = await formData.get('dados')
   if (dados == null ) {
-    return redirect('/', { status: 400 })
+    return redirect('/')
   }
 
   if (typeof chave === 'string' && typeof dados === 'string') {
@@ -57,7 +58,7 @@ export async function action ({ context, request }: ActionArgs) {
     return redirect('/list')
   }
 
-  return redirect('/', { status: 400 })
+  return redirect('/')
 }
 
 export default function Add () {

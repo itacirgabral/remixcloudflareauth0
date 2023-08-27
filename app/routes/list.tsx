@@ -6,15 +6,15 @@ import { authenticator } from "~/auth.server"
 export async function loader ({ context, request }: LoaderArgs) {
   const { auth0 = false, email = false, verified = false } = await authenticator.isAuthenticated(request) ?? {}
   if (!verified) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   if (!auth0) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
   const env = context.env as Env
   const user = await env.kv.get(`v1/user/${auth0}`)
   if (user == null) {
-    return redirect('/', { status: 401 })
+    return redirect('/')
   }
 
   const itens = await env.kv.list({
